@@ -34,11 +34,10 @@ const NoticiaSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    /*
     palavras: [{
         type: String,
         required: true
-    }],*/
+    }],
     estado: {
         type: String,
         required: false
