@@ -17,7 +17,6 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
         let palavras = encontraPalavrasNoTexto(definePalavarasQuery(), content.toLowerCase());
         let estado = noticia.source_locality["state"];
         let uf = noticia.source_locality["stateAcronym"];
-        let palavras = definePalavaras();
 
         await Noticia.create({url, "texto": content, "id_noticia": id, 
         "titulo": title, "fonte": source, "codigo_veiculo": source_id, 
