@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 //Model com que as informações são salvas no BD
 const NoticiaSchema = new mongoose.Schema({
-    /*codigo: {
+    codigo: {
         type: Number,
         required: true
-    },*/
+    },
     /*serial: {
         type: Number,
         required: true

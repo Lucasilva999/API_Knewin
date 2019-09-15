@@ -2,6 +2,7 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Noticia = require("./models/Noticia");
+const LogNoticia = require("./models/LogNoticia");
 const config = require('./query');
 const definePalavarasQuery = require('./functions/definePalavarasQuery');
 const encontraPalavrasNoTexto = require('./functions/encontraPalavrasNoTexto');
@@ -9,29 +10,31 @@ dotenv.config();
 
 mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true})
 .then(()=> console.log('Conectado ao Banco de Dados...'))
-.then(
+.then( 
     axios.post('http://data.knewin.com/news', config)
     .then(function(response){
         response.data.hits.forEach(async noticia => {
+        //Inseerindo Notícia
+        
         let { url, content, title, source, published_date, source_id, id } = noticia;
         let palavras = encontraPalavrasNoTexto(definePalavarasQuery(), content.toLowerCase());
-        let estado = noticia.source_locality["state"];
-        let uf = noticia.source_locality["stateAcronym"];
+        let estado = noticia.source_locality[0].state;
+        let uf = noticia.source_locality[0].stateAcronym;
 
-        await Noticia.create({url, "texto": content, "id_noticia": id, 
+        await Noticia.create({codigo , url, "texto": content, "id_noticia": id, 
         "titulo": title, "fonte": source, "codigo_veiculo": source_id, 
         "data_publicacao": published_date, estado, uf, palavras });
 
-        console.log("Notícia cadastrado com sucesso!");
+        console.log("Notícia cadastrada com sucesso!");
         })
     })
     .catch(err => {
       console.log(err);
   })
 )
-.catch(err => console.log(`Erro ao se conectar ao Banco de Dados: ${err}`));
+.catch(err => console.log(`Erro ao se conectar ao Banco de Dados: ${err}`))
+//.then(mongoose.connection.close());
 
-mongoose.connection.close();
 
   
 
