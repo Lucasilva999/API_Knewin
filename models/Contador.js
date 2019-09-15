@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 //Model com que as informações são salvas no BD
 const ContadorSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        default: "contador"
+    },
     noticiaId: {
         type: Number,
         default: 0

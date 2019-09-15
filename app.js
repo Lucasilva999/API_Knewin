@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Noticia = require("./models/Noticia");
 const LogNoticia = require("./models/LogNoticia");
+const Contador = require("./models/Contador");
 const config = require('./query');
 const definePalavarasQuery = require('./functions/definePalavarasQuery');
 const encontraPalavrasNoTexto = require('./functions/encontraPalavrasNoTexto');
@@ -14,14 +15,17 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
     axios.post('http://data.knewin.com/news', config)
     .then(function(response){
         response.data.hits.forEach(async noticia => {
-        //Inseerindo Notícia
-        
+        //Inserindo Notícia
+        let contador = await Contador.findOneAndUpdate({"id": "contador"}, {$inc: {"noticiaId": 1}}, {new: true});
+        let codigoNoticia = contador.noticiaId;
+        //let codigoLogNoticia = contador.logNoticiaId;
+
         let { url, content, title, source, published_date, source_id, id } = noticia;
         let palavras = encontraPalavrasNoTexto(definePalavarasQuery(), content.toLowerCase());
         let estado = noticia.source_locality[0].state;
         let uf = noticia.source_locality[0].stateAcronym;
 
-        await Noticia.create({codigo , url, "texto": content, "id_noticia": id, 
+        await Noticia.create({"codigo": codigoNoticia, url, "texto": content, "id_noticia": id, 
         "titulo": title, "fonte": source, "codigo_veiculo": source_id, 
         "data_publicacao": published_date, estado, uf, palavras });
 
