@@ -16,8 +16,8 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
     .then(function(response){
         response.data.hits.forEach(async noticia => {
         //Inserindo Notícia
-        let contador = await Contador.findOneAndUpdate({"id": "contador"}, {$inc: {"noticiaId": 1}}, {new: true});
-        let codigoNoticia = contador.noticiaId;
+        let contadorNoticia = await Contador.findOneAndUpdate({"id": "noticia"}, {$inc: {"noticiaId": 1}}, {new: true});
+        let codigoNoticia = contadorNoticia.noticiaId;
         //let codigoLogNoticia = contador.logNoticiaId;
 
         let { url, content, title, source, published_date, source_id, id } = noticia;

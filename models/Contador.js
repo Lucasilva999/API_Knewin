@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const ContadorSchema = new mongoose.Schema({
     id: {
         type: String,
-        default: "contador"
+        required: true
     },
     noticiaId: {
         type: Number,
