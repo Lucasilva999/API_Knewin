@@ -14,7 +14,7 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
 .then(async ()=> {
 
   let ultimoRegistro = await LogNoticia.findOne({}).sort({"data_cadastro": "desc"});
-  ultimoRegistro ? config.offset = ultimoRegistro.pagina.toString() : "0";
+  ultimoRegistro ? config.offset = ultimoRegistro.pagina.toString() : config.offset = "0";
   console.log("OFFSET: " + config.offset);
 
   axios.post('http://data.knewin.com/news', config)
@@ -37,13 +37,15 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
           }
           //Insere Log Notícia
           let ultimoRegistro = await LogNoticia.findOne({}).sort({"data_cadastro": "desc"});
+          let quantidade_gravada = noticias.length;
+
           if(ultimoRegistro) {
               let codigo = ultimoRegistro.codigo + 1;
-              let pagina = ultimoRegistro.pagina + 10;
-              await LogNoticia.create({codigo, pagina});
+              let pagina = ultimoRegistro.pagina + quantidade_gravada;
+              await LogNoticia.create({codigo, pagina, quantidade_gravada});
           }
           if(!ultimoRegistro) {
-              await LogNoticia.create({"codigo": 1, "pagina": 10});
+              await LogNoticia.create({"codigo": 1, "pagina": 10, "quantidade_gravada": 10});
           }
           console.log("Log Registro cadastrado com sucesso!");
         }
@@ -56,9 +58,6 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
 .catch(err => console.log(`Erro ao se conectar ao Banco de Dados: ${err}`))
 
 //.then(mongoose.connection.close());
-
-
-  
 
   /*
   Keywords: content, url, page, title, domain, id, source_id, source(fonte), crawled_date(data procurado),

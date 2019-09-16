@@ -7,6 +7,10 @@ const LogNoticiaSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    quantidade_gravada: {
+        type: Number,
+        default: 10
+    },
     pagina: {
         type: Number,
         default: 0
