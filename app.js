@@ -11,8 +11,13 @@ dotenv.config();
 
 mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true})
 .then(()=> console.log('Conectado ao Banco de Dados...'))
-.then( 
-    axios.post('http://data.knewin.com/news', config)
+.then(async ()=> {
+
+  let ultimoRegistro = await LogNoticia.findOne({}).sort({"data_cadastro": "desc"});
+  ultimoRegistro ? config.offset = ultimoRegistro.pagina.toString() : "0";
+  console.log("OFFSET: " + config.offset);
+
+  axios.post('http://data.knewin.com/news', config)
     .then(async function(response){
         try {
           //Insere Notícia
@@ -46,12 +51,10 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
           throw err;
         }
       }
-
-    ).catch(err => {
-      throw err;
-  })
-)
+)})
+.catch(err => {throw err;})
 .catch(err => console.log(`Erro ao se conectar ao Banco de Dados: ${err}`))
+
 //.then(mongoose.connection.close());
 
 
