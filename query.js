@@ -1,7 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-
 const config = { 
     
     "key": process.env.KEY,

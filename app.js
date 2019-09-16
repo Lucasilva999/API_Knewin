@@ -13,27 +13,42 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
 .then(()=> console.log('Conectado ao Banco de Dados...'))
 .then( 
     axios.post('http://data.knewin.com/news', config)
-    .then(function(response){
-        response.data.hits.forEach(async noticia => {
-        //Inserindo Notícia
-        let contadorNoticia = await Contador.findOneAndUpdate({"id": "noticia"}, {$inc: {"noticiaId": 1}}, {new: true});
-        let codigoNoticia = contadorNoticia.noticiaId;
-        //let codigoLogNoticia = contador.logNoticiaId;
+    .then(async function(response){
+        try {
+          //Insere Notícia
+          let noticias = response.data.hits;
+          for (let i = 0; i < noticias.length; i++) {
+            let contadorNoticia = await Contador.findOneAndUpdate({"id": "noticia"}, {$inc: {"noticiaId": 1}}, {new: true});
+            let codigoNoticia = contadorNoticia.noticiaId;
+            let { url, content, title, source, published_date, source_id, id } = noticias[i];
+            let palavras = encontraPalavrasNoTexto(definePalavarasQuery(), content.toLowerCase());
+            let estado = noticias[i].source_locality[0].state;
+            let uf = noticias[i].source_locality[0].stateAcronym;
 
-        let { url, content, title, source, published_date, source_id, id } = noticia;
-        let palavras = encontraPalavrasNoTexto(definePalavarasQuery(), content.toLowerCase());
-        let estado = noticia.source_locality[0].state;
-        let uf = noticia.source_locality[0].stateAcronym;
+            await Noticia.create({"codigo": codigoNoticia, url, "texto": content, "id_noticia": id, 
+            "titulo": title, "fonte": source, "codigo_veiculo": source_id, 
+            "data_publicacao": published_date, estado, uf, palavras });
+            console.log("Notícia cadastrada com sucesso!");
+          }
+          //Insere Log Notícia
+          let ultimoRegistro = await LogNoticia.findOne({}).sort({"data_cadastro": "desc"});
+          if(ultimoRegistro) {
+              let codigo = ultimoRegistro.codigo + 1;
+              let pagina = ultimoRegistro.pagina + 10;
+              await LogNoticia.create({codigo, pagina});
+          }
+          if(!ultimoRegistro) {
+              await LogNoticia.create({"codigo": 1, "pagina": 10});
+          }
+          console.log("Log Registro cadastrado com sucesso!");
+        }
+        catch(err) {
+          throw err;
+        }
+      }
 
-        await Noticia.create({"codigo": codigoNoticia, url, "texto": content, "id_noticia": id, 
-        "titulo": title, "fonte": source, "codigo_veiculo": source_id, 
-        "data_publicacao": published_date, estado, uf, palavras });
-
-        console.log("Notícia cadastrada com sucesso!");
-        })
-    })
-    .catch(err => {
-      console.log(err);
+    ).catch(err => {
+      throw err;
   })
 )
 .catch(err => console.log(`Erro ao se conectar ao Banco de Dados: ${err}`))
