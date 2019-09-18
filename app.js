@@ -48,6 +48,7 @@ mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useFindA
               await LogNoticia.create({"codigo": 1, "pagina": 10, "quantidade_gravada": 10});
           }
           console.log("Log Registro cadastrado com sucesso!");
+          mongoose.disconnect();
         }
         catch(err) {
           throw err;
