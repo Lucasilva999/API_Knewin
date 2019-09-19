@@ -8,13 +8,11 @@ const Noticia = db.sequelize.define('noticia', {
     }, 
     id_noticia: {
         type: db.Sequelize.BIGINT,
-        allowNull: true,
-        defaultValue: 'Não Encontrado'
+        allowNull: false,
     },
     data_publicacao: {
         type: db.Sequelize.DATE,
-        allowNull: true,
-        defaultValue: 'Não Encontrado'
+        allowNull: false,
     },
     titulo: {
         type: db.Sequelize.STRING,
@@ -29,7 +27,7 @@ const Noticia = db.sequelize.define('noticia', {
     codigo_veiculo: {
         type: db.Sequelize.BIGINT,
         allowNull: true,
-        defaultValue: 'Não Encontrado'
+        defaultValue: 0
     },
     url: {
         type: db.Sequelize.STRING,
@@ -38,8 +36,7 @@ const Noticia = db.sequelize.define('noticia', {
     },
     palavras: {
         type: db.Sequelize.STRING,
-        allowNull: true,
-        defaultValue: 'Não Encontrado'
+        allowNull: false
     },
     estado: {
         type: db.Sequelize.STRING,

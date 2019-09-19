@@ -30,26 +30,25 @@ dotenv.config();
             console.log("Notícia cadastrada com sucesso!");
           }
           //Insere Log Notícia
-          //let ultimoRegistro = await LogNoticia.findOne({}).sort({"data_cadastro": "desc"});
-          //let quantidade_gravada = noticias.length;
+          let ultimoCodigo = await Noticia.max('codigo');
+          let ultimaPagina = await Noticia.max('pagina');
+          let quantidade_gravada = noticias.length;
 
-          // if(ultimoRegistro) {
-          //     let codigo = ultimoRegistro.codigo + 1;
-          //     let pagina = ultimoRegistro.pagina + quantidade_gravada;
-          //     await LogNoticia.create({codigo, pagina, quantidade_gravada});
-          // }
-          // if(!ultimoRegistro) {
-          //     await LogNoticia.create({"codigo": 1, "pagina": 10, "quantidade_gravada": 10});
-          // }
-          // console.log("Log Registro cadastrado com sucesso!");
+          if(ultimoCodigo && ultimaPagina || NaN && ultimoCodigo && ultimaPagina || null) {
+               let codigo = ultimoCodigo + 1;
+               let pagina = ultimaPagina + quantidade_gravada;
+               await LogNoticia.create({codigo, pagina, quantidade_gravada});
+          }
+          else {
+            await LogNoticia.create({"codigo": 1, "pagina": 10, "quantidade_gravada": 10});
+          }
+          console.log("Log Registro cadastrado com sucesso!");
         }
         catch(err) {
           throw err;
         }
       }
 )
-
-//.then(mongoose.connection.close());
 
   /*
   Keywords: content, url, page, title, domain, id, source_id, source(fonte), crawled_date(data procurado),

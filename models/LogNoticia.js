@@ -13,11 +13,7 @@ const LogNoticia = db.sequelize.define('logNoticia', {
     pagina: {
         type: db.Sequelize.INTEGER,
         allowNull: false
-    },
-    data_cadastro: {
-        type: db.Sequelize.DATE,
-        allowNull: false
-    },
+    }
 })
 
 //LogNoticia.sync({force: true});
