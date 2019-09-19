@@ -1,64 +1,63 @@
-const mongoose = require('mongoose');
+const db = require('../db');
 
-//Model com que as informações são salvas no BD
-const NoticiaSchema = new mongoose.Schema({
+const Noticia = db.sequelize.define('noticia', {
     codigo: {
-        type: Number,
-        required: true
-    },
-    /*serial: {
-        type: Number,
-        required: true
-    },*/
+        type: db.Sequelize.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+    }, 
     id_noticia: {
-        type: Number,
-        required: false
+        type: db.Sequelize.BIGINT,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
     data_publicacao: {
-        type: Date,
-        required: false
+        type: db.Sequelize.DATE,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
     titulo: {
-        type: String,
-        required: false
+        type: db.Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
     fonte: {
-        type: String,
-        required: false
+        type: db.Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
     codigo_veiculo: {
-        type: Number,
-        required: false
+        type: db.Sequelize.BIGINT,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
     url: {
-        type: String,
-        required: false
+        type: db.Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
-    palavras: [{
-        type: String,
-        required: true
-    }],
+    palavras: {
+        type: db.Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
+    },
     estado: {
-        type: String,
-        required: false
+        type: db.Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
     uf: {
-        type: String,
-        required: false
+        type: db.Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
     texto: {
-        type: String,
-        required: false
+        type: db.Sequelize.TEXT,
+        allowNull: true,
+        defaultValue: 'Não Encontrado'
     },
-    data_cadastro: {
-        type: Date,
-        default: Date.now()
-    },
-    /*
-    status_feed: {
-        type: Number,
-        required: true
-    }*/
 })
 
-module.exports = mongoose.model('noticia', NoticiaSchema);
+//Noticia.sync({force: true});
+
+module.exports = Noticia;

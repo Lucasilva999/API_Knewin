@@ -1,24 +1,25 @@
-const mongoose = require('mongoose');
+const db = require('../db');
 
-//Model com que as informações são salvas no BD
-const LogNoticiaSchema = new mongoose.Schema({
-
+const LogNoticia = db.sequelize.define('logNoticia', {
     codigo: {
-        type: Number,
-        default: 0
-    },
+        type: db.Sequelize.BIGINT,
+        primaryKey: true,
+        allowNull: false
+    }, 
     quantidade_gravada: {
-        type: Number,
-        default: 10
+        type: db.Sequelize.INTEGER,
+        allowNull: false
     },
     pagina: {
-        type: Number,
-        default: 0
+        type: db.Sequelize.INTEGER,
+        allowNull: false
     },
     data_cadastro: {
-        type: Date,
-        default: Date.now()
-    }
+        type: db.Sequelize.DATE,
+        allowNull: false
+    },
 })
 
-module.exports = mongoose.model('log_noticia', LogNoticiaSchema);
+//LogNoticia.sync({force: true});
+
+module.exports = LogNoticia;

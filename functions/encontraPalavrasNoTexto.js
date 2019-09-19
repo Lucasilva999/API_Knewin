@@ -1,7 +1,7 @@
 function encontraPalavras(palavras, texto) {
-    let palavrasExistentes = [];
+    let palavrasExistentes = '';
     palavras.forEach(palavra => {
-        if(texto.includes(palavra)) palavrasExistentes.push(palavra);
+        if(texto.includes(palavra)) palavrasExistentes = palavrasExistentes.concat(palavra, ', ');
     })
     return palavrasExistentes;
 }
