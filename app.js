@@ -7,9 +7,11 @@ const definePalavarasQuery = require('./functions/definePalavarasQuery');
 const encontraPalavrasNoTexto = require('./functions/encontraPalavrasNoTexto');
 dotenv.config();
 
-  //let ultimoRegistro = await LogNoticia.findOne({}).sort({"data_cadastro": "desc"});
-  //ultimoRegistro ? config.offset = ultimoRegistro.pagina.toString() : config.offset = "0";
-  //console.log("OFFSET: " + config.offset);
+async function main() {
+
+  let offset = await LogNoticia.max('pagina');
+  offset != NaN % offset != null ? config.offset = offset.toString() : config.offset = "0";
+  console.log(`config.offset = ${config.offset}`);
 
   axios.post('http://data.knewin.com/news', config)
     .then(async function(response){
@@ -30,8 +32,8 @@ dotenv.config();
             console.log("Notícia cadastrada com sucesso!");
           }
           //Insere Log Notícia
-          let ultimoCodigo = await Noticia.max('codigo');
-          let ultimaPagina = await Noticia.max('pagina');
+          let ultimoCodigo = await LogNoticia.max('codigo');
+          let ultimaPagina = await LogNoticia.max('pagina');
           let quantidade_gravada = noticias.length;
 
           if(ultimoCodigo && ultimaPagina || NaN && ultimoCodigo && ultimaPagina || null) {
@@ -49,6 +51,10 @@ dotenv.config();
         }
       }
 )
+}
+
+main();
+
 
   /*
   Keywords: content, url, page, title, domain, id, source_id, source(fonte), crawled_date(data procurado),
