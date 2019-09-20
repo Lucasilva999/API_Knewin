@@ -1,3 +1,4 @@
+const definePalavarasQuery = require('./functions/definePalavarasQuery');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -5,7 +6,7 @@ const config = {
     
     "key": process.env.KEY,
     //Palavras na Query não podem contem letra maiúscula
-    "query": "seade OR \"dalmo nogueira filho\" OR \"produto interno bruto - pib\" OR \"pesquisa de emprego e desemprego - ped\" OR \"inovação tecnológica\" OR \"produto interno bruto\" OR pib OR \"pesquisa de emprego e desemprego\" OR \"inovação tecnológica\" OR investimentos OR \"indústria sucroalcooleira\" OR \"políticas públicas\" OR commodities OR \"desenvolvimento sustentável\" OR \"condições de Vida\" OR fecundidade OR migração OR mortalidade OR casamentos OR envelhecimento",
+    "query": "seade OR \"dalmo nogueira filho\" OR \"produto interno bruto - pib\" OR \"pesquisa de emprego e desemprego - ped\" OR \"inovação tecnológica\" OR \"produto interno bruto\" OR pib OR \"pesquisa de emprego e desemprego\" OR \"inovação tecnológica\" OR investimentos OR \"indústria sucroalcooleira\" OR \"políticas públicas\" OR commodities OR \"desenvolvimento sustentável\" OR \"condições de vida\" OR fecundidade OR migração OR mortalidade OR casamentos OR envelhecimento",
     "filter": 
         { 
             "language": ["pt"],

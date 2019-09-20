@@ -4,10 +4,14 @@ const Noticia = require("./models/Noticia");
 const LogNoticia = require("./models/LogNoticia");
 const config = require('./query');
 const definePalavarasQuery = require('./functions/definePalavarasQuery');
+const defineStringQuery = require('./functions/defineStringQuery');
 const encontraPalavrasNoTexto = require('./functions/encontraPalavrasNoTexto');
 dotenv.config();
 
 async function main() {
+
+  config.query = await defineStringQuery();
+  console.log(`Query: ${config.query}`);
 
   let ultimaPagina = await LogNoticia.max('pagina');
   ultimaPagina >= 0 ? config.offset = ultimaPagina.toString() : config.offset = 0;  
@@ -22,7 +26,7 @@ async function main() {
           for (let i = 0; i < noticias.length; i++) {
 
             let { url, content, title, source, published_date, source_id, id } = noticias[i];
-            let palavras = encontraPalavrasNoTexto(definePalavarasQuery(), content.toLowerCase());
+            let palavras = encontraPalavrasNoTexto(await definePalavarasQuery(), content.toLowerCase());
             let estado = noticias[i].source_locality[0].state;
             let uf = noticias[i].source_locality[0].stateAcronym;
 
@@ -53,7 +57,7 @@ async function main() {
           console.log(err);
         }
       }
-)
+  )
 }
 
 main();
