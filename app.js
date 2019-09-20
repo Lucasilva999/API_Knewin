@@ -9,9 +9,9 @@ dotenv.config();
 
 async function main() {
 
-  let offset = await LogNoticia.max('pagina');
-  offset != NaN % offset != null ? config.offset = offset.toString() : config.offset = "0";
-  console.log(`config.offset = ${config.offset}`);
+  let ultimaPagina = await LogNoticia.max('pagina');
+  ultimaPagina >= 0 ? config.offset = ultimaPagina.toString() : config.offset = 0;  
+  console.log(`Offset: ${config.offset}`);
 
   axios.post('http://data.knewin.com/news', config)
     .then(async function(response){
@@ -19,8 +19,7 @@ async function main() {
           //Insere Notícia
           let noticias = response.data.hits;
           for (let i = 0; i < noticias.length; i++) {
-            //let contadorNoticia = await Contador.findOneAndUpdate({"id": "noticia"}, {$inc: {"noticiaId": 1}}, {new: true});
-            //let codigoNoticia = contadorNoticia.noticiaId;
+
             let { url, content, title, source, published_date, source_id, id } = noticias[i];
             let palavras = encontraPalavrasNoTexto(definePalavarasQuery(), content.toLowerCase());
             let estado = noticias[i].source_locality[0].state;
@@ -47,7 +46,7 @@ async function main() {
           console.log("Log Registro cadastrado com sucesso!");
         }
         catch(err) {
-          throw err;
+          console.log(err);
         }
       }
 )
@@ -57,7 +56,9 @@ main();
 
 
   /*
+  
   Keywords: content, url, page, title, domain, id, source_id, source(fonte), crawled_date(data procurado),
   published_date(data de publicação), lang, source_id(id veículo)
   source_locality: [{country, countryAcronym(sigla país), state, stateAcronym(sigla estado)}]
+  
   */
