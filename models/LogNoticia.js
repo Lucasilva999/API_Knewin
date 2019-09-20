@@ -4,9 +4,13 @@ const LogNoticia = db.sequelize.define('logNoticia', {
     codigo: {
         type: db.Sequelize.BIGINT,
         primaryKey: true,
-        allowNull: false
+        autoIncrement: true
     }, 
     quantidade_gravada: {
+        type: db.Sequelize.INTEGER,
+        allowNull: false
+    },
+    quantidade_noticias: {
         type: db.Sequelize.INTEGER,
         allowNull: false
     },

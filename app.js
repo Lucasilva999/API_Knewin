@@ -17,6 +17,7 @@ async function main() {
     .then(async function(response){
         try {
           //Insere Notícia
+          let quantidade_noticias = response.data.num_docs;
           let noticias = response.data.hits;
           for (let i = 0; i < noticias.length; i++) {
 
@@ -28,6 +29,7 @@ async function main() {
             await Noticia.create({url, "texto": content, "id_noticia": id, 
             "titulo": title, "fonte": source, "codigo_veiculo": source_id, 
             "data_publicacao": published_date, estado, uf, palavras });
+
             console.log("Notícia cadastrada com sucesso!");
           }
           //Insere Log Notícia
@@ -36,14 +38,16 @@ async function main() {
           let quantidade_gravada = noticias.length;
 
           if(ultimoCodigo && ultimaPagina || NaN && ultimoCodigo && ultimaPagina || null) {
-               let codigo = ultimoCodigo + 1;
-               let pagina = ultimaPagina + quantidade_gravada;
-               await LogNoticia.create({codigo, pagina, quantidade_gravada});
+              
+              let pagina = ultimaPagina + quantidade_gravada;
+              await LogNoticia.create({pagina, quantidade_noticias, quantidade_gravada});
+              console.log("Log Registro cadastrado com sucesso!");
           }
           else {
-            await LogNoticia.create({"codigo": 1, "pagina": 10, "quantidade_gravada": 10});
+              await LogNoticia.create({"pagina": noticias.length, quantidade_gravada, quantidade_noticias});
+              console.log("Log Registro cadastrado com sucesso!");
           }
-          console.log("Log Registro cadastrado com sucesso!");
+          
         }
         catch(err) {
           console.log(err);
@@ -56,7 +60,7 @@ main();
 
 
   /*
-  
+
   Keywords: content, url, page, title, domain, id, source_id, source(fonte), crawled_date(data procurado),
   published_date(data de publicação), lang, source_id(id veículo)
   source_locality: [{country, countryAcronym(sigla país), state, stateAcronym(sigla estado)}]
