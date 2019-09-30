@@ -10,7 +10,7 @@ caso deseje apenas criar uma tabela caso a mesma ainda não exista.
 const palavras = ['seade', 'dalmo nogueira filho', 'produto interno bruto - pib', 'pesquisa de emprego e desemprego - ped',
 'inovação tecnológica', 'produto interno bruto', 'pib', 'pesquisa de emprego e desemprego', 'inovação tecnológica',
 'investimentos', 'indústria sucroalcooleira', 'políticas públicas', 'commodities', 'desenvolvimento sustentável',
-'condições de vida', 'fecundidade', 'migração', 'mortalidade', 'casamentos', 'envelhecimento', 'teste'];
+'condições de vida', 'fecundidade', 'migração', 'mortalidade', 'casamentos', 'envelhecimento'];
 
 async function main() {
     await LogNoticia.destroy({
