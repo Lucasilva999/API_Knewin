@@ -9,9 +9,15 @@ const PalavrasQuery = db.sequelize.define('palavras', {
     palavra: {
         type: db.Sequelize.STRING,
         allowNull: false
+    },
+    createdAt: {
+        type: db.Sequelize.DATE,
+        defaultValue: db.Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    updatedAt: {
+        type: db.Sequelize.DATE,
+        defaultValue: db.Sequelize.literal('CURRENT_TIMESTAMP'),
     }
 })
-
-//PalavrasQuery.sync({force: true});
 
 module.exports = PalavrasQuery;

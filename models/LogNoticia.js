@@ -20,6 +20,4 @@ const LogNoticia = db.sequelize.define('logNoticia', {
     }
 })
 
-//LogNoticia.sync({force: true});
-
 module.exports = LogNoticia;

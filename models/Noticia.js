@@ -55,6 +55,4 @@ const Noticia = db.sequelize.define('noticia', {
     },
 })
 
-//Noticia.sync({force: true});
-
 module.exports = Noticia;

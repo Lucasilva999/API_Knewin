@@ -1,3 +1,4 @@
+const db = require('./db');
 const Noticia = require("./models/Noticia");
 const LogNoticia = require("./models/LogNoticia");
 const PalavrasQuery = require("./models/PalavrasQuery");
@@ -14,15 +15,11 @@ const palavras = ['seade', 'dalmo nogueira filho', 'produto interno bruto - pib'
 'condições de vida', 'fecundidade', 'migração', 'mortalidade', 'casamentos', 'envelhecimento'];
 
 async function main() {
-    /* 
-    Descomente "await Noticia.sync()" se estiver gerando a estrutura do banco pela primeira vez
-    Caso queira apenas atualizar a lista de palavras, 
-    comente-o para não perder as notícias que já foram salvas!!!
-    */
 
-    //await Noticia.sync({force: true});
+    await Noticia.sync({force: true});
     await LogNoticia.sync({force: true});
-    await PalavrasQuery.sync({force: true})
+    await PalavrasQuery.sync({force: true});
+    await db.sequelize.query("ALTER TABLE palavras MODIFY COLUMN updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;")
 
     //Insere na tabela Palavras cada palavra específicada no Array palavras
     palavras.forEach(async palavra => {
