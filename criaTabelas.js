@@ -21,7 +21,7 @@ async function main() {
     await LogNoticia.sync({force: true});
     await PalavrasQuery.sync({force: true});
     await InfoPalavras.sync({force: true});
-    await InfoPalavras.create({});
+    await InfoPalavras.create({"codigo": 1});
     await db.sequelize.query("ALTER TABLE palavras MODIFY COLUMN updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;")
 
     //Insere na tabela Palavras cada palavra específicada no Array palavras

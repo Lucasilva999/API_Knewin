@@ -3,8 +3,7 @@ const db = require('../db');
 const InfoPalavras = db.sequelize.define('info_palavras', {
     codigo: {
         type: db.Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        primaryKey: true
     }, 
     ultima_modificacao: {
         type: db.Sequelize.DATE,
