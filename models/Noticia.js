@@ -53,6 +53,14 @@ const Noticia = db.sequelize.define('noticia', {
         allowNull: true,
         defaultValue: 'Não Encontrado'
     },
+    createdAt: {
+        type: db.Sequelize.DATE,
+        defaultValue: db.Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    updatedAt: {
+        type: db.Sequelize.DATE,
+        defaultValue: db.Sequelize.literal('CURRENT_TIMESTAMP'),
+    }
 })
 
 module.exports = Noticia;

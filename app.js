@@ -2,6 +2,8 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 const Noticia = require("./models/Noticia");
 const LogNoticia = require("./models/LogNoticia");
+const Palavras = require("./models/PalavrasQuery");
+const InfoPalavras = require("./models/InfoPalavras");
 const config = require('./query');
 const definePalavarasQuery = require('./functions/definePalavarasQuery');
 const defineStringQuery = require('./functions/defineStringQuery');
@@ -13,6 +15,22 @@ async function main() {
   config.query = await defineStringQuery();
   console.log(`Query: ${config.query}`);
 
+  //Atualiza InfoPalavras
+  let ultimaModificacaoCreatedAt = await Palavras.max('createdAt');
+  let ultimaModificacaoUpdatedAt = await Palavras.max('updatedAt');
+    
+    if (ultimaModificacaoCreatedAt || ultimaModificacaoUpdatedAt) {
+        ultimaModificacaoCreatedAt > ultimaModificacaoUpdatedAt ? 
+        await InfoPalavras.findOne({"codigo": 1})
+        .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoCreatedAt})) : 
+        await InfoPalavras.findOne({"codigo": 1})
+        .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt})) 
+    }else {
+        await InfoPalavras.findOne({"codigo": 1})
+        .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt})) 
+    }
+
+  //Define Offset
   let ultimaPagina = await LogNoticia.max('pagina');
   ultimaPagina >= 0 ? config.offset = ultimaPagina.toString() : config.offset = 0;  
   console.log(`Offset: ${config.offset}`);
@@ -61,12 +79,3 @@ async function main() {
 }
 
 main();
-
-
-  /*
-
-  Keywords: content, url, page, title, domain, id, source_id, source(fonte), crawled_date(data procurado),
-  published_date(data de publicação), lang, source_id(id veículo)
-  source_locality: [{country, countryAcronym(sigla país), state, stateAcronym(sigla estado)}]
-  
-  */

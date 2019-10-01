@@ -17,6 +17,14 @@ const LogNoticia = db.sequelize.define('logNoticia', {
     pagina: {
         type: db.Sequelize.INTEGER,
         allowNull: false
+    },
+    createdAt: {
+        type: db.Sequelize.DATE,
+        defaultValue: db.Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    updatedAt: {
+        type: db.Sequelize.DATE,
+        defaultValue: db.Sequelize.literal('CURRENT_TIMESTAMP'),
     }
 })
 

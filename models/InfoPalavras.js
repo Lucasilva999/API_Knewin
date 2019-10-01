@@ -6,14 +6,10 @@ const InfoPalavras = db.sequelize.define('info_palavras', {
         primaryKey: true,
         autoIncrement: true
     }, 
-    quantidade_palavras: {
-        type: db.Sequelize.INTEGER,
-        allowNull: false
-    },
     ultima_modificacao: {
         type: db.Sequelize.DATE,
-        allowNull: false
+        allowNull: true
     }
-})
+}, {timestamps: false})
 
 module.exports = InfoPalavras;

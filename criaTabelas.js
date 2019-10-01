@@ -1,6 +1,7 @@
 const db = require('./db');
 const Noticia = require("./models/Noticia");
 const LogNoticia = require("./models/LogNoticia");
+const InfoPalavras = require("./models/InfoPalavras");
 const PalavrasQuery = require("./models/PalavrasQuery");
 
 /*
@@ -19,6 +20,8 @@ async function main() {
     await Noticia.sync({force: true});
     await LogNoticia.sync({force: true});
     await PalavrasQuery.sync({force: true});
+    await InfoPalavras.sync({force: true});
+    await InfoPalavras.create({});
     await db.sequelize.query("ALTER TABLE palavras MODIFY COLUMN updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;")
 
     //Insere na tabela Palavras cada palavra específicada no Array palavras
