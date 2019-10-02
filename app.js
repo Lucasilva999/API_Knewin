@@ -15,20 +15,62 @@ async function main() {
   config.query = await defineStringQuery();
   console.log(`Query: ${config.query}`);
 
-  //Atualiza InfoPalavras
-  let ultimaModificacaoCreatedAt = await Palavras.max('createdAt');
-  let ultimaModificacaoUpdatedAt = await Palavras.max('updatedAt');
-    
-    if (ultimaModificacaoCreatedAt || ultimaModificacaoUpdatedAt) {
-        ultimaModificacaoCreatedAt > ultimaModificacaoUpdatedAt ? 
-        await InfoPalavras.findOne({"codigo": 1})
-        .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoCreatedAt})) : 
-        await InfoPalavras.findOne({"codigo": 1})
-        .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt})) 
-    }else {
-        await InfoPalavras.findOne({"codigo": 1})
-        .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt})) 
+  //Encontra o valor máximo de Criação e Atualização na tabela Palavras
+  const ultimaModificacaoCreatedAt = await Palavras.max('createdAt');
+  const ultimaModificacaoUpdatedAt = await Palavras.max('updatedAt');
+  const quantidadePalavras = await Palavras.count();
+  //Encontra o Registro único da tabela InfoPalavras
+  const infoPalavra = await InfoPalavras.findOne({"codigo": 1});
+  const InfoPalavraDataRegistro = infoPalavra.dataValues.ultima_modificacao;
+  const InfoPalavraQuantidadePalavras = infoPalavra.dataValues.quantidade_palavras;
+
+  //Caso o Registro Exista
+  if(infoPalavra || null) {
+
+    //Caso CreatedAt ou UpdatedAt sejam mais recentes do que o valor de InfoPalavra 
+    if(ultimaModificacaoCreatedAt > InfoPalavraDataRegistro || ultimaModificacaoUpdatedAt > InfoPalavraDataRegistro || 
+      quantidadePalavras != InfoPalavraQuantidadePalavras) {
+
+      //Apaga todos os Regsitros da Tabela LogNotícia
+        await LogNoticia.destroy({
+          where: {},
+          truncate: true
+        }); 
+
+      //Caso os valores máximos de CreatedAt e UpdatedAt sejam diferentes
+      if (ultimaModificacaoCreatedAt || ultimaModificacaoUpdatedAt) {
+          
+        //Determina qual o valor mais recente que será inserido na tabela InfoPalavras
+            ultimaModificacaoCreatedAt > ultimaModificacaoUpdatedAt ? 
+            await InfoPalavras.findOne({"codigo": 1})
+            .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoCreatedAt, "quantidade_palavras": quantidadePalavras})) : 
+            await InfoPalavras.findOne({"codigo": 1})
+            .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt, "quantidade_palavras": quantidadePalavras})) 
+        
+        //Caso os valores máximos de CreatedAt e UpdatedAt sejam iguais
+        }else {
+            await InfoPalavras.findOne({"codigo": 1})
+            .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt, "quantidade_palavras": quantidadePalavras})) 
+        }
     }
+
+      //Caso o Registro não Exista
+      } else {
+      const quantidadePalavras = await Palavras.count();
+
+      //Caso os valores máximos de CreatedAt e UpdatedAt sejam diferentes
+      if (ultimaModificacaoCreatedAt || ultimaModificacaoUpdatedAt) {
+          
+      //Determina qual o valor mais recente que será inserido na tabela InfoPalavras
+          ultimaModificacaoCreatedAt > ultimaModificacaoUpdatedAt ? 
+          await InfoPalavras.create({"codigo": 1, "ultima_modificacao": ultimaModificacaoCreatedAt, "quantidade_palavras": quantidadePalavras}) : 
+          await InfoPalavras.create({"codigo": 1, "ultima_modificacao": ultimaModificacaoUpdatedAt, "quantidade_palavras": quantidadePalavras}) 
+      
+      //Caso os valores máximos de CreatedAt e UpdatedAt sejam iguais
+      }else {
+          await InfoPalavras.create({"codigo": 1, "ultima_modificacao": ultimaModificacaoUpdatedAt, "quantidade_palavras": quantidadePalavras}) 
+      } 
+  } 
 
   //Define Offset
   let ultimaPagina = await LogNoticia.max('pagina');
