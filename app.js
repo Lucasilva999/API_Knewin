@@ -37,25 +37,25 @@ async function main() {
           truncate: true
         }); 
 
-      //Caso os valores máximos de CreatedAt e UpdatedAt sejam diferentes
-      if (ultimaModificacaoCreatedAt || ultimaModificacaoUpdatedAt) {
+        //Caso os valores máximos de CreatedAt e UpdatedAt sejam diferentes
+        if (ultimaModificacaoCreatedAt || ultimaModificacaoUpdatedAt) {
+            
+          //Determina qual o valor mais recente que será inserido na tabela InfoPalavras
+              ultimaModificacaoCreatedAt > ultimaModificacaoUpdatedAt ? 
+              await InfoPalavras.findOne({"codigo": 1})
+              .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoCreatedAt, "quantidade_palavras": quantidadePalavras})) : 
+              await InfoPalavras.findOne({"codigo": 1})
+              .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt, "quantidade_palavras": quantidadePalavras})) 
           
-        //Determina qual o valor mais recente que será inserido na tabela InfoPalavras
-            ultimaModificacaoCreatedAt > ultimaModificacaoUpdatedAt ? 
-            await InfoPalavras.findOne({"codigo": 1})
-            .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoCreatedAt, "quantidade_palavras": quantidadePalavras})) : 
-            await InfoPalavras.findOne({"codigo": 1})
-            .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt, "quantidade_palavras": quantidadePalavras})) 
-        
-        //Caso os valores máximos de CreatedAt e UpdatedAt sejam iguais
-        }else {
-            await InfoPalavras.findOne({"codigo": 1})
-            .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt, "quantidade_palavras": quantidadePalavras})) 
-        }
+          //Caso os valores máximos de CreatedAt e UpdatedAt sejam iguais
+          }else {
+              await InfoPalavras.findOne({"codigo": 1})
+              .then(registro => registro.update({"ultima_modificacao": ultimaModificacaoUpdatedAt, "quantidade_palavras": quantidadePalavras})) 
+          }
     }
 
-      //Caso o Registro não Exista
-      } else {
+    //Caso o Registro não Exista
+  } else {
       const quantidadePalavras = await Palavras.count();
 
       //Caso os valores máximos de CreatedAt e UpdatedAt sejam diferentes
