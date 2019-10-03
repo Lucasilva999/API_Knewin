@@ -86,6 +86,7 @@ async function main() {
           for (let i = 0; i < noticias.length; i++) {
 
             let { url, content, title, source, published_date, source_id, id } = noticias[i];
+            content ? content = content : content = 'Conteúdo_Não_Encontrado';
             let palavras = encontraPalavrasNoTexto(await definePalavarasQuery(), content.toLowerCase());
             let estado = noticias[i].source_locality[0].state;
             let uf = noticias[i].source_locality[0].stateAcronym;

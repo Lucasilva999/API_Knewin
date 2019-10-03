@@ -1,10 +1,10 @@
 const LogNoticia = require("./models/LogNoticia");
 const PalavrasQuery = require("./models/PalavrasQuery");
 
-const palavras = ['Seade', 'Dalmo Nogueira filho', 'Produto Interno Bruto - PIB', 'Pesquisa de Emprego e Desemprego - PED',
-'Inovação Tecnológica', 'Produto Interno Bruto', 'PIB', 'Pesquisa de Emprego e Desemprego', 'Inovação Tecnológica',
-'Investimentos', 'Indústria Sucroalcooleira', 'Políticas Públicas', 'Commodities', 'Desenvolvimento Sustentável',
-'Condições de Vida', 'Fecundidade', 'Migração', 'Mortalidade', 'Casamentos', 'Envelhecimento'];
+const palavras = ['Queens of The Stone Age', 'Muse', 'Led Zepellin', 'Kyuss',
+'Queen', 'Jimi Hendrix', 'Metallica', 'AC/DC', 'Josh Homme',
+'Eric Clapton', 'Steve Vai', 'Van Halen', 'Chris Cornell', 'Pearl Jam',
+'Alice in Chains', 'Mark Lanegan', 'Ted Nugent', 'Nirvana', 'Bad Religion', 'Kurt Cobain'];
 
 async function main() {
     await LogNoticia.destroy({
