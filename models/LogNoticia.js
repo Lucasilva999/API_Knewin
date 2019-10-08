@@ -12,7 +12,8 @@ const LogNoticia = db.sequelize.define('logNoticia', {
     },
     quantidade_noticias: {
         type: db.Sequelize.INTEGER,
-        allowNull: false
+        allowNull: true,
+        defaultValue: 0
     },
     pagina: {
         type: db.Sequelize.INTEGER,
