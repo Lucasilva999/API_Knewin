@@ -1,0 +1,68 @@
+<h1 class="text-center mt-4 mb-5">Cadastrar Notícia</h1>
+
+<form method="POST" action="/cadastro">
+  <div class="form-row">
+    <div class="form-group col-md-5">
+      <label for="titulo">Título:</label>
+      <input type="text" class="form-control" id="titulo" name="titulo">
+    </div>
+    <div class="form-group col-md-5">
+      <label for="fonte">Fonte:</label>
+      <input type="text" class="form-control" id="fonte" name="fonte">
+    </div>
+    <div class="form-group col-md-2">
+      <label for="idfonte">ID Fonte:</label>
+      <input type="text" class="form-control" id="idfonte" name="idfonte">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-12">
+        <label for="url">Url:</label>
+        <input type="text" class="form-control" id="url" name="url">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-2">
+      <label for="uf">Estado</label>
+      <select id="uf" name="uf" class="form-control">
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espírito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+        <label for="dataPublicacao">Data de Publicação:</label>
+        <input type="datetime-local" class="form-control" id="dataPublicacao" name="dataPublicacao">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="conteudo">Conteúdo:</label>
+    <textarea class="form-control" id="conteudo" name="conteudo" rows="7"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Cadastrar</button>
+  <a class="btn btn-secondary" href="/" role="button">Voltar</a>
+</form>
