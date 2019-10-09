@@ -18,8 +18,6 @@ const dotenv = require('dotenv');
     app.engine('handlebars', handlebars({defaultLayout: 'main'}));
     app.set('view engine', 'handlebars');
 
-    //Conexão com o MySql
-
     //Importando Rotas
     const adminRoutes = require('./routes/index');
 

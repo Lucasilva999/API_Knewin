@@ -12,4 +12,10 @@ router.post('/cadastro', adminController.postCadastro);
 
 router.get('/noticias', adminController.getNoticias);
 
+router.get('/noticias/:codigo', adminController.getNoticia);
+
+router.post('/noticias/atualizar/:codigo', adminController.postAtualizarNoticia);
+
+router.post('/noticias/excluir/:codigo', adminController.postExcluirNoticia);
+
 module.exports = router;

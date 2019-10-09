@@ -1,0 +1,13 @@
+<h1 class="text-center my-4">Notícias Cadastradas</h1>
+
+<ul class="list-group">
+    {{#each noticias}}
+        <li class="list-group-item my-3">
+            <p>Código: {{codigo}}</p>
+            <p>Título: {{titulo}}</p>
+            <p>Fonte: {{fonte}} / Id Fonte: {{codigo_veiculo}}</p>
+            <p>Url: <a href={{url}} target="_blank">{{url}}</a></p>
+            <a class="btn btn-primary" href="/noticias/{{codigo}}" type="button">Visualizar Notícia</a>
+        </li>
+    {{/each}}
+</ul>

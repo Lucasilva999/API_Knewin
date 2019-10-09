@@ -37,6 +37,31 @@ exports.postCadastro = async (req, res)=> {
 }
 
 //Rota Geral de Acesso as Notícias
-exports.getNoticias = (req, res)=> {
-    res.render('noticias.handlebars');
+exports.getNoticias = async (req, res)=> {
+
+    const noticias = await Noticia.findAll();
+    res.render('noticias.handlebars', {noticias});
+}
+
+//Rota Geral de Acesso as Notícias
+exports.getNoticia = async (req, res)=> {
+    
+    const noticia = await Noticia.findOne({
+        where: {
+            codigo: req.params.codigo,
+        }
+    });
+    console.log(noticia);
+
+    res.render('noticia.handlebars', {noticia});
+}
+
+//Rota de Update das Notícias
+exports.postAtualizarNoticia = async (req, res)=> {
+    res.redirect('/noticias');
+}
+
+//Rota de Delete das Notícias
+exports.postExcluirNoticia = async (req, res)=> {
+    res.redirect('/noticias');
 }
