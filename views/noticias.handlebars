@@ -1,27 +1,28 @@
-<h1 class="text-center my-4">Notícias Cadastradas</h1>
+<h1 class="text-center mt-3 mb-5">Notícias Cadastradas</h1>
 
-<ul class="list-group">
+<div class="list-group">
     {{#each noticias}}
-        <li class="list-group-item my-3">
-            <p>Código: {{codigo}}</p>
-            <p>Título: {{titulo}}</p>
-            <p>Fonte: {{fonte}} / Id Fonte: {{codigo_veiculo}}</p>
+        <li class="list-group-item my-2">
+            <h3>{{titulo}}</h3>
+            <p>Código: <span class="badge badge-success badge-pill">{{ codigo }}</span></p>
+            <p>Id Fonte: {{codigo_veiculo}}</p>
+            <p>Fonte: {{fonte}}</P>
             <p>Url: <a href={{url}} target="_blank">{{url}}</a></p>
-            <a class="btn btn-primary" href="/noticias/{{codigo}}" type="button">Visualizar Notícia</a>
+            <a class="btn btn-sm btn-primary rounded" href="/noticias/{{codigo}}" role="button">Visualizar Notícia</a>
         </li>
     {{/each}}
-</ul>
+</div>
 
-<nav aria-label="Page navigation example">
+<nav class="mt-3">
   <ul class="pagination">
     {{#if ultimaPagina}}
-        <li class="page-item"><a class="page-link" href="/noticias?page={{ultimaPagina}}&limit={{limit}}">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="/noticias?page={{ultimaPagina}}&limit={{limit}}">Anterior</a></li>
         <li class="page-item"><a class="page-link" href="/noticias?page={{ultimaPagina}}&limit={{limit}}">{{ultimaPagina}}</a></li>
     {{/if}}
-        <li class="page-item"><a class="page-link" href="#">{{pagina}}</a></li>
+        <li class="page-item active"><a class="page-link" href="#">{{pagina}}</a></li>
     {{#if proximaPagina}}
         <li class="page-item"><a class="page-link" href="/noticias?page={{proximaPagina}}&limit={{limit}}">{{proximaPagina}}</a></li>
-        <li class="page-item"><a class="page-link" href="/noticias?page={{proximaPagina}}&limit={{limit}}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="/noticias?page={{proximaPagina}}&limit={{limit}}">Próxima</a></li>
     {{/if}}
   </ul>
 </nav>

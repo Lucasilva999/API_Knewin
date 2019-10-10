@@ -6,7 +6,7 @@ const defineEstado = require('../functions/defineEstado');
 
 //Rota Geral Index
 exports.getIndex = (req, res)=> {
-    res.render('admin.handlebars');
+    res.render('menu.handlebars', {layout: 'menu.handlebars'});
 }
 
 //Rota Geral de Cadastro
