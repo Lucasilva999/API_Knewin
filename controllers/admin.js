@@ -38,9 +38,29 @@ exports.postCadastro = async (req, res)=> {
 
 //Rota Geral de Acesso as Notícias
 exports.getNoticias = async (req, res)=> {
+    let pagina = req.query.page ? parseInt(req.query.page) : 1;
+    let limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    let offset = (pagina - 1) * limit;
+    let count = await Noticia.count();
+    
+    let ultimoOffset = ((pagina - 1) - 1) * limit;
+    let proximoOffset = ((pagina + 1) - 1) * limit;
+    let totalPaginas = Math.ceil(count / limit);
+    let ultimaPagina = pagina - 1;
+    let proximaPagina = pagina + 1;
+    
 
-    const noticias = await Noticia.findAll();
-    res.render('noticias.handlebars', {noticias});
+    if(offset <= 0 || offset == NaN) offset = 0;
+    if(pagina <= 0) pagina = 1;
+    if(ultimaPagina <= 0) ultimaPagina = null;
+    if (proximaPagina >= totalPaginas) proximaPagina = null; 
+    
+    const noticias = await Noticia.findAll({
+        limit,
+        offset
+    });
+
+    res.render('noticias.handlebars', {noticias, proximoOffset, ultimoOffset, pagina, ultimaPagina, proximaPagina, limit});
 }
 
 //Rota Geral de Acesso as Notícias
@@ -51,7 +71,6 @@ exports.getNoticia = async (req, res)=> {
             codigo: req.params.codigo,
         }
     });
-    console.log(noticia);
 
     res.render('noticia.handlebars', {noticia});
 }

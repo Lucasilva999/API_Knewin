@@ -11,3 +11,17 @@
         </li>
     {{/each}}
 </ul>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {{#if ultimaPagina}}
+        <li class="page-item"><a class="page-link" href="/noticias?page={{ultimaPagina}}&limit={{limit}}">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="/noticias?page={{ultimaPagina}}&limit={{limit}}">{{ultimaPagina}}</a></li>
+    {{/if}}
+        <li class="page-item"><a class="page-link" href="#">{{pagina}}</a></li>
+    {{#if proximaPagina}}
+        <li class="page-item"><a class="page-link" href="/noticias?page={{proximaPagina}}&limit={{limit}}">{{proximaPagina}}</a></li>
+        <li class="page-item"><a class="page-link" href="/noticias?page={{proximaPagina}}&limit={{limit}}">Next</a></li>
+    {{/if}}
+  </ul>
+</nav>
