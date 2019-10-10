@@ -1,0 +1,156 @@
+<h1 class="text-center mt-3 mb-3">{{noticia.dataValues.titulo}}</h1>
+
+<div class="row">
+    <div class="col text-center">
+        <button href="#modal_editar" class="btn btn-primary"
+        data-toggle="modal" data-target="#modal_editar">
+        Editar Notícia
+        </button>
+        <button href="#modal_excluir" class="btn btn-danger"
+        data-toggle="modal" data-target="#modal_excluir">
+        Excluir Notícia
+        </button>
+    </div>
+</div>
+
+<h4 class="my-3">Informações sobre a Notícia:</h4>
+<p>Código: {{noticia.dataValues.codigo}}</p>
+<p>Id Notícia: {{noticia.dataValues.id_noticia}}</p>
+<p>Data de Pubçicação: {{noticia.dataValues.data_publicacao}}</p>
+<p>Título: {{noticia.dataValues.titulo}}</p>
+<p>Fonte: {{noticia.dataValues.codigo_veiculo}} - {{noticia.dataValues.fonte}}</p>
+<p>Palavras-chave: {{noticia.dataValues.palavras}}</p>
+<p>Estado: {{noticia.dataValues.estado}} / UF: {{noticia.dataValues.uf}}</p>
+<p>Url: <a href={{noticia.dataValues.url}} target="_blank">{{noticia.dataValues.url}}</a></p>
+<hr class="my-4">
+<h4 class="my-3">Conteúdo da Notícia:</h4>
+<p>{{noticia.dataValues.texto}}</p>
+
+<!-- Modal de Edição da Notícia -->
+<div class="modal fade" id="modal_editar" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Editar Notícia</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- Formulário de Edição da Notícia -->
+            <form method="POST" action="/noticias/atualizar/{{noticia.dataValues.codigo}}">
+            <div class="form-group row">
+                <label for="id_noticia" class="col-sm-3 col-form-label-lg">Id Notícia:</label>
+                <div class="col-sm-4">
+                    <input type="text" value="{{noticia.dataValues.id_noticia}}" class="form-control" id="id_noticia" name="id_noticia" placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="titulo" class="col-sm-3 col-form-label-lg">Título:</label>
+                <div class="col-sm-8">
+                    <input type="text" value="{{noticia.dataValues.titulo}}" class="form-control" id="titulo" name="titulo" placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="data_publicacao" class="col-sm-3 col-form-label-lg">Data de Pubçicação:</label>
+                <div class="col-sm-5">
+                    <input type="datetime-local" value="{{noticia.dataValues.data_publicacao}}" class="form-control" id="data_publicacao" name="data_publicacao" placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="codigo_veiculo" class="col-sm-3 col-form-label-lg">ID Fonte:</label>
+                <div class="col-sm-4">
+                    <input type="text" value="{{noticia.dataValues.codigo_veiculo}}" class="form-control" id="codigo_veiculo" name="codigo_veiculo" placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="fonte" class="col-sm-3 col-form-label-lg">Fonte:</label>
+                <div class="col-sm-8">
+                    <input type="text" value="{{noticia.dataValues.fonte}}" class="form-control" id="fonte" name="fonte" placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="uf" class="col-sm-3 col-form-label-lg">Estado</label>
+                <div class="col-sm-4">
+                    <select id="uf" name="uf" class="form-control">
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="url" class="col-sm-3 col-form-label-lg">Url:</label>
+                <div class="col-sm-8">
+                    <input type="text" value="{{noticia.dataValues.url}}" class="form-control" id="url" name="url" placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="texto" class="col-sm-3 col-form-label-lg">Conteúdo:</label>
+                <textarea type="text" rows="10" class="form-control mx-3" id="texto" name="texto">
+                    {{noticia.dataValues.texto}}
+                </textarea>
+            </div>     
+            <input type="hidden" name="codigo" id="codigo" value="{{codigo}}"/>             
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+        </div>
+        </div>
+        </form>
+    <!-- Fim do formulário de Edição da Notícia -->
+    </div>
+    </div>
+<!-- Fim do Modal de Edição da Notícia -->
+
+<!-- Modal Excluir Notícia -->
+        <div id="modal_excluir" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Excluir Notícia - ({{noticia.dataValues.codigo}}) {{noticia.dataValues.titulo}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja deletar a notícia?</p>
+                <p>Todas informações associadas à ela serão perdidas</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <form method="POST" action="/noticias/excluir/{{noticia.dataValues.codigo}}">
+                    <button type="submit" class="btn btn-primary">Excluir Notícia</button>
+                </form>
+            </div>
+            </div>
+        </div>
+        </div>
+        </div>
+<!-- Fim do Modal para Excluir Notícia -->
