@@ -61,6 +61,11 @@ exports.getNoticias = async (req, res)=> {
         offset
     });
 
+    for (let i = 0; i < noticias.length; i++) {
+        let data = noticias[i].dataValues.data_publicacao;
+        console.log(data);
+    }
+
     res.render('noticias.handlebars', {noticias, proximoOffset, ultimoOffset, pagina, ultimaPagina, proximaPagina, limit});
 }
 
