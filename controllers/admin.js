@@ -1,5 +1,6 @@
 const Noticia = require('../models/Noticia');
 const LogNoticia = require('../models/LogNoticia');
+const Palavras = require('../models/PalavrasQuery');
 const encontraPalavrasNoTexto = require('../functions/encontraPalavrasNoTexto');
 const definePalavarasQuery = require('../functions/definePalavarasQuery');
 const defineEstado = require('../functions/defineEstado');
@@ -83,4 +84,39 @@ exports.postAtualizarNoticia = async (req, res)=> {
 //Rota de Delete das Notícias
 exports.postExcluirNoticia = async (req, res)=> {
     res.redirect('/noticias');
+}
+
+//Rota para Página de Edição de Palavras-chave
+exports.getPalavras = async (req, res)=> {
+    const palavras = await Palavras.findAll();
+    res.render('palavras.handlebars', {palavras});
+}
+
+//Rota de Cadastro de Palavras
+exports.cadastrarPalavras = async (req, res)=> {
+    const palavra = req.body.palavra;
+    
+    await Palavras.create({ palavra });
+   
+    res.redirect('/palavras');
+}
+
+//Rota de Exclusão de Palavras
+exports.excluirPalavras = async (req, res)=> {
+    const codigo = req.body.codigo;
+    await Palavras.destroy({
+        where: { codigo },
+    }); 
+   
+    res.redirect('/palavras');
+}
+
+//Rota de Edição de Palavras
+exports.editarPalavras = async (req, res)=> {
+    const { codigo, palavra } = req.body;
+
+    await Palavras.findOne({codigo})
+    .then(registro => registro.update({palavra}));
+   
+    res.redirect('/palavras');
 }
