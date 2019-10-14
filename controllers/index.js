@@ -158,7 +158,9 @@ exports.getPalavras = async (req, res)=> {
 exports.cadastrarPalavras = async (req, res)=> {
     const palavra = req.body.palavra.toLowerCase();
     
-    await Palavras.create({ palavra });
+    if(palavra != '') {
+        await Palavras.create({ palavra });
+    }
    
     res.redirect('/palavras');
 }
