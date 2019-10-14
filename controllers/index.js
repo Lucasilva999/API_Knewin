@@ -61,11 +61,6 @@ exports.getNoticias = async (req, res)=> {
         offset
     });
 
-    for (let i = 0; i < noticias.length; i++) {
-        let data = noticias[i].dataValues.data_publicacao;
-        console.log(data);
-    }
-
     res.render('noticias.handlebars', {noticias, proximoOffset, ultimoOffset, pagina, ultimaPagina, proximaPagina, limit});
 }
 
@@ -78,16 +73,78 @@ exports.getNoticia = async (req, res)=> {
         }
     });
 
-    res.render('noticia.handlebars', {noticia});
+    let dataPublicacao = noticia.dataValues.data_publicacao.toString();
+    let ano = dataPublicacao.slice(11, 15);
+    let dia = dataPublicacao.slice(8, 10);
+    let mes = dataPublicacao.slice(4, 7);
+    let hora = dataPublicacao.slice(16, 18);
+    let minutos = dataPublicacao.slice(19, 21);
+
+    switch (mes) {
+        case "Jan":
+            mes = "01";
+            break;
+        case "Feb":
+            mes = "02";
+            break;
+        case "Mar":
+            mes = "03";
+            break;
+        case "Apr":
+            mes = "04";
+            break;
+        case "May":
+            mes = "05";
+            break;
+        case "Jun":
+            mes = "06";
+            break;
+        case "Jul":
+            mes = "07";
+            break;
+        case "Aug":
+            mes = "08";
+            break;
+        case "Sep":
+            mes = "09";
+            break;
+        case "Oct":
+            mes = "10";
+            break;
+        case "Nov":
+            mes = "11";
+            break;
+        case "Dec":
+            mes = "12";
+            break;    
+    }
+
+    dataPublicacao = `${ano}-${mes}-${dia}T${hora}:${minutos}`;
+    noticia.dataValues.data_publicacao = `${dia}/${mes}/${ano} às ${hora}:${minutos}`;
+
+    res.render('noticia.handlebars', {noticia, dataPublicacao});
 }
 
 //Rota de Update das Notícias
-exports.postAtualizarNoticia = async (req, res)=> {
-    res.redirect('/noticias');
+exports.postEditarNoticia = async (req, res)=> {
+    let {codigo, id_noticia, texto, titulo, idfonte, fonte, url, uf, dataPublicacao } = req.body;
+    texto = texto.trim();
+    let estado = defineEstado(uf);
+    uf === 'NI' ? uf = 'Não Encontrado' : uf = uf;
+    const palavras = encontraPalavrasNoTexto(await definePalavarasQuery(), texto.toLowerCase());
+
+    await Noticia.findOne({codigo})
+    .then(registro => registro.update({id_noticia, texto, titulo, idfonte, fonte, url, estado, uf, dataPublicacao, palavras}));
+
+    res.redirect(`/noticias/${codigo}`);
 }
 
 //Rota de Delete das Notícias
 exports.postExcluirNoticia = async (req, res)=> {
+    const codigo = req.body.codigo;
+    await Noticia.destroy({
+        where: { codigo },
+    }); 
     res.redirect('/noticias');
 }
 
@@ -99,7 +156,7 @@ exports.getPalavras = async (req, res)=> {
 
 //Rota de Cadastro de Palavras
 exports.cadastrarPalavras = async (req, res)=> {
-    const palavra = req.body.palavra;
+    const palavra = req.body.palavra.toLowerCase();
     
     await Palavras.create({ palavra });
    

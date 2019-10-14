@@ -16,7 +16,7 @@
 <h4 class="my-3">Informações sobre a Notícia:</h4>
 <p>Código: {{noticia.dataValues.codigo}}</p>
 <p>Id Notícia: {{noticia.dataValues.id_noticia}}</p>
-<p>Data de Pubçicação: {{noticia.dataValues.data_publicacao}}</p>
+<p>Data de Publicação: {{noticia.dataValues.data_publicacao}}</p>
 <p>Título: {{noticia.dataValues.titulo}}</p>
 <p>Fonte: {{noticia.dataValues.codigo_veiculo}} - {{noticia.dataValues.fonte}}</p>
 <p>Palavras-chave: {{noticia.dataValues.palavras}}</p>
@@ -38,7 +38,7 @@
         </div>
         <div class="modal-body">
             <!-- Formulário de Edição da Notícia -->
-            <form method="POST" action="/noticias/atualizar/{{noticia.dataValues.codigo}}">
+            <form method="POST" action="/noticias/editar">
             <div class="form-group row">
                 <label for="id_noticia" class="col-sm-3 col-form-label-lg">Id Notícia:</label>
                 <div class="col-sm-4">
@@ -54,7 +54,7 @@
             <div class="form-group row">
                 <label for="data_publicacao" class="col-sm-3 col-form-label-lg">Data de Publicação:</label>
                 <div class="col-sm-6">
-                    <input type="datetime-local" value="2018-06-12T19:30" class="form-control" id="data_publicacao" name="data_publicacao" placeholder="">
+                    <input type="datetime-local" value="{{dataPublicacao}}" class="form-control" id="data_publicacao" name="data_publicacao" placeholder="">
                 </div>
             </div>
             <div class="form-group row">
@@ -71,9 +71,9 @@
             </div>
             <div class="form-group row">
                 <label for="uf" class="col-sm-3 col-form-label-lg">Estado</label>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <select id="uf" name="uf" class="form-control">
-                        <option selected disabled>Selecione</option>
+                        <option selected value="NI">Não Informado</option>
                         <option value="AC">Acre</option>
                         <option value="AL">Alagoas</option>
                         <option value="AP">Amapá</option>
@@ -116,7 +116,7 @@
                     {{noticia.dataValues.texto}}
                 </textarea>
             </div>     
-            <input type="hidden" name="codigo" id="codigo" value="{{codigo}}"/>             
+            <input type="hidden" name="codigo" id="codigo" value="{{noticia.dataValues.codigo}}"/>             
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -141,12 +141,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Tem certeza que deseja deletar a notícia?</p>
+                <p>Tem certeza que deseja excluir a notícia?</p>
                 <p>Todas informações associadas à ela serão perdidas</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-dismiss="modal">Fechar</button>
-                <form method="POST" action="/noticias/excluir/{{noticia.dataValues.codigo}}">
+                <form method="POST" action="/noticias/excluir">
+                    <input type="hidden" name="codigo" value="{{noticia.dataValues.codigo}}"/>
                     <button type="submit" class="btn btn-secondary">Excluir Notícia</button>
                 </form>
             </div>

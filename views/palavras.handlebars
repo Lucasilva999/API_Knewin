@@ -1,0 +1,103 @@
+<h1 class="text-center mt-3 mb-5">Editar Palavras-Chave</h1>
+
+<div class="formulario d-flex justify-content-center mb-5">
+    <form action="/palavras/cadastrar" method="post" class="form-inline">
+        <input class="form-control" type="text" placeholder="Inserir palavra" name="palavra">
+        <button type="submit" class="btn btn-primary mx-2">Cadastrar</button>
+    </form>
+</div>
+
+
+<ul class="list-group list-group-flush d-flex align-items-center">
+  {{#each palavras}}
+    <li class="list-group-item w-50">
+        <div class="row">
+            <div class="col-sm-10">
+                {{palavra}}
+            </div>
+            <div class="col-sm-2">
+                <div class="row">
+                    <div class="col-sm-6">
+                    <button href="#modal_editar_{{codigo}}" class="btn btn-info btn-sm "
+                        data-toggle="modal" data-target="#modal_editar_{{codigo}}"
+                        data-toggle="tooltip" data-placement="bottom" title="Editar">
+                        <i class="far fa-edit fa-lg"></i>
+                    </button>
+                    </div>
+                    <div class="col-sm-6">
+                    <button href="#modal_excluir_{{codigo}}" class="btn btn-danger btn-sm rounded"
+                        data-toggle="modal" data-target="#modal_excluir_{{codigo}}"
+                        data-toggle="tooltip" data-placement="bottom" title="Excluir">
+                        <i class="far fa-trash-alt fa-lg"></i>
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </li>
+
+    <!-- Modal de Edição da Notícia -->
+    <div class="modal fade" id="modal_editar_{{codigo}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Palavra</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulário de Edição da Notícia -->
+                <form method="POST" action="/palavras/editar">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" value="{{palavra}}" class="form-control" id="palavra" name="palavra" placeholder="">
+                    </div>
+                </div>  
+                <input type="hidden" name="codigo" value="{{codigo}}"/>           
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+            </form>
+            </div>
+            </div>
+            
+        <!-- Fim do formulário de Edição da Notícia -->
+        </div>
+        </div>
+    <!-- Fim do Modal de Edição da Notícia -->
+
+    <!-- Modal Excluir Palavra -->
+        <div id="modal_excluir_{{codigo}}" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Excluir Palavra - {{palavra}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja remover a palavra?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Fechar</button>
+                    <form method="POST" action="/palavras/excluir">
+                        <input type="hidden" name="codigo" value="{{codigo}}"/>
+                        <button type="submit" class="btn btn-secondary">Excluir Palavra</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+    <!-- Fim do Modal para Excluir Notícia -->
+  {{/each}}
+</ul>
+
+
+
+    

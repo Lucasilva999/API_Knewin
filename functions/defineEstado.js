@@ -2,6 +2,9 @@
 function defineFonte(uf) {
     let estado = '';
     switch (uf) {
+        case 'NI':
+            estado = 'Não Encontrado';
+            break;
         case 'AC':
             estado = 'Instituto Brasileiro de Geografia e Estatística – IBGE, Fundação Seade';
             break;
@@ -84,7 +87,7 @@ function defineFonte(uf) {
             estado = 'Tocantins';
             break;
         default:
-            estado = 'Indefinido';
+            estado = 'Não Encontrado';
             break;
     }
     return estado;

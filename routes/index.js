@@ -1,29 +1,29 @@
 //Importanto Express Router
 const router = require('express').Router();
 //Importando Controller
-const adminController = require('../controllers/admin');
+const indexController = require('../controllers/index');
 
 //Rota geral Admin
-router.get('/', adminController.getIndex);
+router.get('/', indexController.getIndex);
 
-router.get('/cadastro', adminController.getCadastro);
+router.get('/cadastro', indexController.getCadastro);
 
-router.post('/cadastro', adminController.postCadastro);
+router.post('/cadastro', indexController.postCadastro);
 
-router.get('/noticias', adminController.getNoticias);
+router.get('/noticias', indexController.getNoticias);
 
-router.get('/noticias/:codigo', adminController.getNoticia);
+router.get('/noticias/:codigo', indexController.getNoticia);
 
-router.post('/noticias/atualizar/:codigo', adminController.postAtualizarNoticia);
+router.post('/noticias/editar', indexController.postEditarNoticia);
 
-router.post('/noticias/excluir/:codigo', adminController.postExcluirNoticia);
+router.post('/noticias/excluir', indexController.postExcluirNoticia);
 
-router.get('/palavras', adminController.getPalavras);
+router.get('/palavras', indexController.getPalavras);
 
-router.post('/palavras/cadastrar', adminController.cadastrarPalavras);
+router.post('/palavras/cadastrar', indexController.cadastrarPalavras);
 
-router.post('/palavras/excluir', adminController.excluirPalavras);
+router.post('/palavras/excluir', indexController.excluirPalavras);
 
-router.post('/palavras/editar', adminController.editarPalavras);
+router.post('/palavras/editar', indexController.editarPalavras);
 
 module.exports = router;
